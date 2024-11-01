@@ -20,3 +20,7 @@ Memory Access:
     Uses unsafe blocks for direct register access via memory-mapped I/O.
 
 This HAL simplifies GPIO control on the Atmega328p by abstracting hardware interactions into high-level Rust functions.
+
+[CORRECTION GPIO] (Don't hesitate to remove this part)
+I couldn't compile ! When you build your project for the first time, I recommand you to use the ```cargo new your_project``` command.
+It is good that you use a generic function like "modify_reg()", but you could have try to subdivise your project into different module.

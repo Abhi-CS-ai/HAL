@@ -6,6 +6,9 @@ use core::ptr;
 const DDRB: *mut u8 = 0x24 as *mut u8;
 const PORTB: *mut u8 = 0x25 as *mut u8;
 const PINB: *mut u8 = 0x23 as *mut u8;
+/* [CORRECTION GPIO] 
+    Any operations here will be limited to the I/O registers of port B
+(Don't hesitate to remove this comment)*/
 
 #[derive(Clone, Copy)]
 pub enum PinMode {
