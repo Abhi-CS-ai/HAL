@@ -1,47 +1,38 @@
-#![no_std]
-#![no_main]
-
 use core::ptr;
+use crate::usart::USART;
 
-const DDRB: *mut u8 = 0x24 as *mut u8;
-const PORTB: *mut u8 = 0x25 as *mut u8;
-const PINB: *mut u8 = 0x23 as *mut u8;
-/* [CORRECTION GPIO] 
-    Any operations here will be limited to the I/O registers of port B
-(Don't hesitate to remove this comment)*/
+const UBRR0H: *mut u8 = 0xC5 as *mut u8;
+const UBRR0L: *mut u8 = 0xC4 as *mut u8;
+const UCSR0B: *mut u8 = 0xC1 as *mut u8;
+const UCSR0C: *mut u8 = 0xC2 as *mut u8;
+const UDR0: *mut u8 = 0xC6 as *mut u8;
+const UCSRA: *const u8 = 0xC0 as *const u8;
 
-#[derive(Clone, Copy)]
-pub enum PinMode {
-    Input,
-    Output,
-}
+pub struct Atmega328pUSART;
 
-#[derive(Clone, Copy)]
-pub enum PinState {
-    High,
-    Low,
-}
+impl USART for Atmega328pUSART {
+    fn init(baud_rate: u32) {
+        let ubrr = 16_000_000 / (16 * baud_rate) - 1;
 
-fn modify_reg(reg: *mut u8, pin: u8, set: bool) {
-    let value = unsafe { ptr::read_volatile(reg) };
-    unsafe { ptr::write_volatile(reg, if set { value | (1 << pin) } else { value & !(1 << pin) }) };
-}
+        unsafe {
+            ptr::write_volatile(UBRR0H, (ubrr >> 8) as u8);
+            ptr::write_volatile(UBRR0L, ubrr as u8);
+            ptr::write_volatile(UCSR0C, (1 << 1) | (1 << 2));
+            ptr::write_volatile(UCSR0B, (1 << 3) | (1 << 4));
+        }
+    }
 
-pub fn set_pin_mode(pin: u8, mode: PinMode) {
-    modify_reg(DDRB, pin, matches!(mode, PinMode::Output));
-}
+    fn transmit(data: u8) {
+        unsafe {
+            while ptr::read_volatile(UCSRA) & (1 << 5) == 0 {}
+            ptr::write_volatile(UDR0, data);
+        }
+    }
 
-pub fn write_pin(pin: u8, state: PinState) {
-    modify_reg(PORTB, pin, matches!(state, PinState::High));
-}
-
-pub fn read_pin(pin: u8) -> PinState {
-    if unsafe { ptr::read_volatile(PINB) } & (1 << pin) != 0 {
-        PinState::High
-    } else {
-        PinState::Low
+    fn receive() -> u8 {
+        unsafe {
+            while ptr::read_volatile(UCSRA) & (1 << 7) == 0 {}
+            ptr::read_volatile(UDR0)
+        }
     }
 }
-
-#[no_mangle]
-pub extern "C" fn main() {}
