@@ -1,1 +1,10 @@
+[dependencies]
+# Embedded HAL - for hardware abstraction
+embedded-hal = "0.2"
+
+# Atmega328p crate for specific target hardware interaction
+atmega328p = "0.1"  # Replace with the correct version
+cortex-m = "0.7"    # If working with Cortex-M target (optional)
+cortex-m-rt = "0.7" # Runtime for Cortex-M (optional)
+nb = "1.0"           # Non-blocking I/O (for USART)
 
