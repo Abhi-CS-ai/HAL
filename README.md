@@ -4,7 +4,7 @@
 This Rust code implements a basic Hardware Abstraction Layer (HAL) for controlling GPIO pins on the Atmega328p (Arduino Uno). It provides functions to configure a pin as input/output, write HIGH/LOW values, and read pin states using memory-mapped I/O.
 # Access to branches
 - [`GPIO`](https://github.com/Abhi-CS-ai/HAL-Atmega328p-/tree/GPIO-features)
-- [`USART`](https://github.com/Abhi-CS-ai/HAL-Atmega328p-/tree/USART-feature))
+- [`USART`](https://github.com/Abhi-CS-ai/HAL-Atmega328p-/tree/USART-feature)
 - [`SPI`](https://github.com/Abhi-CS-ai/HAL-Atmega328p-/tree/SPI)
 
 ##  GPIO Feature - Hardware Abstraction Layer (HAL)
