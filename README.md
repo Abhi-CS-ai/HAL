@@ -24,7 +24,7 @@ use spi::SPI;
 use spi::atmega328p::Atmega328pSPI;
 
 Atmega328pSPI::init(0b01, 0);
-
+```
 
 
 
