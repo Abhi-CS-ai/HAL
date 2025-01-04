@@ -1,6 +1,6 @@
-# Hardware Abstraction layer FOR ATMEGA328p
+# SPI feature
 
-- We established distinct branches dedicated to the specific features of GPIO, USART, and SPI. Each feature has been allocated its own separate branch for better organization and clarity. For anyone interested in exploring these features more thoroughly, you can find detailed information regarding each one within their corresponding branches. These separate branches serve to enhance the clarity and manageability of our project.
+
 
 
 [CORRECTION GPIO] (Don't hesitate to remove this part)
